@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Ponpon</title>
+
+  <!-- INLINE CSS -->
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      font-family:'Courier New', monospace;
+      background:linear-gradient(135deg,#ffb347,#ff7e00);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .screen{
+      position:absolute;
+      width:100%;
+      height:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    .card{
+      background:white;
+      color:#ff7e00;
+      padding:28px 38px;
+      border-radius:18px;
+      text-align:center;
+      box-shadow:0 12px 35px rgba(0,0,0,0.25);
+      animation:fadeIn 0.8s ease;
+    }
+
+    button{
+      margin-top:15px;
+      padding:12px 24px;
+      border:none;
+      border-radius:12px;
+      background:#ff7e00;
+      color:white;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.25s;
+    }
+
+    button:active{
+      transform:scale(0.95);
+    }
+
+    .notebook{
+      width:90%;
+      max-width:430px;
+      height:80vh;
+      background:#fffaf0;
+      border-radius:14px;
+      box-shadow:0 20px 45px rgba(0,0,0,0.35);
+      padding:40px 28px;
+      overflow-y:auto;
+      background-image:
+        repeating-linear-gradient(
+            to bottom,
+            #fffaf0 0px,
+            #fffaf0 27px,
+            #ffd9b3 28px
+        );
+    }
+
+    #text{
+      color:#333;
+      font-size:18px;
+      line-height:28px;
+      white-space:pre-line;
+    }
+
+    #heartBtn{
+      display:none;
+      text-align:center;
+      margin-top:35px;
+      font-size:24px;
+      cursor:pointer;
+      color:#ff7e00;
+      animation:pulse 1.2s infinite;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(20px);}
+      to{opacity:1; transform:translateY(0);}
+    }
+
+    @keyframes pulse{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.25);}
+      100%{transform:scale(1);}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- START SCREEN -->
+  <div id="startScreen" class="screen">
+    <div class="card">
+      <h2>I hope you read this</h2>
+      <button id="openBtn">Open</button>
+    </div>
+  </div>
+
+  <!-- LETTER SCREEN -->
+  <div id="letterScreen" class="screen hidden">
+    <div class="notebook">
+      <div id="text"></div>
+      <div id="heartBtn">❤️ Tap here</div>
+    </div>
+  </div>
+
+  <!-- INLINE JAVASCRIPT -->
+  <script>
+    const openBtn = document.getElementById("openBtn");
+    const startScreen = document.getElementById("startScreen");
+    const letterScreen = document.getElementById("letterScreen");
+    const textDiv = document.getElementById("text");
+    const heartBtn = document.getElementById("heartBtn");
+
+    const lines = [
+      "Hi Ponpon,",
+      "",
+      "I didn’t want to just send a message.",
+      "I wanted to make something you could keep.",
+      "",
+      "Before you, days felt normal.",
+      "After you, days felt important.",
+      "",
+      "We may be a little chaotic sometimes,",
+      "but you’re still my favorite person.",
+      "",
+      "Thank you for staying with me.",
+      "",
+      "Happy Monthsary ❤️"
+    ];
+
+    openBtn.addEventListener("click", () => {
+      startScreen.classList.add("hidden");
+      letterScreen.classList.remove("hidden");
+      typeLines(0);
+    });
+
+    function typeLines(lineIndex){
+      if(lineIndex >= lines.length){
+        heartBtn.style.display = "block";
+        return;
+      }
+
+      let line = lines[lineIndex];
+      let charIndex = 0;
+
+      function typeChar(){
+        if(charIndex < line.length){
+          textDiv.innerHTML += line.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeChar,50);
+        } else {
+          textDiv.innerHTML += "\n";
+          setTimeout(() => typeLines(lineIndex+1), 250);
+        }
+      }
+
+      typeChar();
+    }
+
+    heartBtn.addEventListener("click", () => {
+      alert("❤️ I still choose you, Ponpon! ❤️");
+    });
+  </script>
+</body>
+</html>
